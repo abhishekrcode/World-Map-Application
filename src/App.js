@@ -17,9 +17,10 @@ import Detail from "./component/Detail";
 const Container = styled(Box)`
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column ;
   background-color: grey;
 `;
+
 
 const initialSearchValue = {
   country:'',
@@ -35,6 +36,7 @@ function App() {
   const [latitude, setClickLat] = useState(null);
   const [longitude, setClickLong] = useState(null);
   const [place, setPlace] = useState("");
+
   const [searchPlace, setsearchPlace] = useState(initialSearchValue);
   const [flag,setFlag] =useState(false);
   const [flags,setFlags] =useState("");
@@ -46,8 +48,7 @@ function App() {
     e.target.doubleClickZoom._clickZoom = true;
     setClickLat(e.lngLat.lat);
     setClickLong(e.lngLat.lng);
-    setFlag(true);
-    setsavedFlags(flags)
+    setFlag(false);
     console.log("flaaaaaaaaaaaag",flags);
   };
 
@@ -61,6 +62,7 @@ function App() {
         //  const place = response.data.features[1].place_name ;
         setPlace(response.data.features[1].place_name);
       });
+
   }, [latitude, longitude]);
 
   const SearchItem = async (e) => {
@@ -74,23 +76,17 @@ function App() {
         console.log("Res",response.data[0])
         setFlags(response.data[0].flags.png);
         console.log("Flag",flags)
-        setFlag(false);
-        
 
       })
       }catch(error){
         console.log(error);
       }
         
-
-    
-
-    
   }
 
   const OnSubmit =()=>{
     setsaved(searchPlace);
-   
+    setFlag(true);
     setsavedFlags(flags);
 
   }
@@ -100,6 +96,8 @@ function App() {
       <h1> World Map Application</h1>
       <input type="text" placeholder="Search Country" onChange={(e)=>{SearchItem(e)}}></input>
       <input type="button" value={"Submit"} onClick={()=> {OnSubmit()}}></input>
+      
+
       <Map
         onClick={(e) => InformationGain(e)}
         mapboxAccessToken="pk.eyJ1IjoiYWJoaTVoZWtyYWoiLCJhIjoiY2xpazlwZGNtMDJ6cjNkcWYzZ3NseHVuZCJ9.kSCZANysCSgTxWQmEVVaFw"
@@ -123,8 +121,9 @@ function App() {
          latitude={lat}
       /> */}
       </Map>
-      {flag?<img src={flags}/>:<img src={savedflags}/>}
-      <Detail place={place} saved={saved}  savedflags={savedflags} setFlags={setFlags}/>
+      {flag?<img src={savedflags}/>:" "}
+      <Detail place={place} saved={saved}  flag={flag} flags={flags}  setFlags={setFlags}/>
+      
     </Container>
   );
 }

@@ -8,7 +8,7 @@ const initialDetail = {
     continents:'',
 }
 
-const Detail = ({place,saved,flag,savedflags,setFlags}) => {
+const Detail = ({place,saved,flag,flags,setFlags}) => {
     const [detail,setDetail] = useState(initialDetail)
 
     useEffect(()=>{
@@ -37,7 +37,7 @@ const Detail = ({place,saved,flag,savedflags,setFlags}) => {
     return (
        
         <>
-       
+        {flag?"":<img src={flags}/>}
         <p1>Country:{flag?saved.country:detail.country}</p1>
         <p1>Capital:{flag?saved.capital:detail.capital}</p1>
         <p1>Population:{flag?saved.population:detail.population}</p1>
