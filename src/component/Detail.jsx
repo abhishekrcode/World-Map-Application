@@ -8,7 +8,7 @@ const initialDetail = {
     continents:'',
 }
 
-const Detail = ({place,saved,flag}) => {
+const Detail = ({place,saved,flag,savedflags,setFlags}) => {
     const [detail,setDetail] = useState(initialDetail)
 
     useEffect(()=>{
@@ -25,6 +25,8 @@ const Detail = ({place,saved,flag}) => {
                 console.log(response.data[0]);
                 setDetail({country:myArray[count-1],capital:response.data[0].capital,population:response.data[0].population,continents:response.data[0].continents})
                 console.log(detail)
+                setFlags(response.data[0].flags.png)
+                
             }).catch(error =>{
                 console.log(error)
             })
@@ -35,6 +37,7 @@ const Detail = ({place,saved,flag}) => {
     return (
        
         <>
+       
         <p1>Country:{flag?saved.country:detail.country}</p1>
         <p1>Capital:{flag?saved.capital:detail.capital}</p1>
         <p1>Population:{flag?saved.population:detail.population}</p1>

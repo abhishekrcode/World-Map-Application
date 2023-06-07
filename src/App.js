@@ -37,6 +37,8 @@ function App() {
   const [place, setPlace] = useState("");
   const [searchPlace, setsearchPlace] = useState(initialSearchValue);
   const [flag,setFlag] =useState(false);
+  const [flags,setFlags] =useState("");
+  const [savedflags,setsavedFlags] =useState("");
 
   const [saved,setsaved] = useState("");
 
@@ -44,7 +46,9 @@ function App() {
     e.target.doubleClickZoom._clickZoom = true;
     setClickLat(e.lngLat.lat);
     setClickLong(e.lngLat.lng);
-    setFlag(false);
+    setFlag(true);
+    setsavedFlags(flags)
+    console.log("flaaaaaaaaaaaag",flags);
   };
 
   useEffect(() => {
@@ -67,6 +71,12 @@ function App() {
       .then((response)=> {
         setsearchPlace({country:searchValue,capital:response.data[0].capital,population:response.data[0].population,continents:response.data[0].continents})
         console.log("SearchValue",searchPlace)
+        console.log("Res",response.data[0])
+        setFlags(response.data[0].flags.png);
+        console.log("Flag",flags)
+        setFlag(false);
+        
+
       })
       }catch(error){
         console.log(error);
@@ -80,7 +90,8 @@ function App() {
 
   const OnSubmit =()=>{
     setsaved(searchPlace);
-    setFlag(true);
+   
+    setsavedFlags(flags);
 
   }
 
@@ -112,7 +123,8 @@ function App() {
          latitude={lat}
       /> */}
       </Map>
-      <Detail place={place} saved={saved} flag={flag}/>
+      {flag?<img src={flags}/>:<img src={savedflags}/>}
+      <Detail place={place} saved={saved}  savedflags={savedflags} setFlags={setFlags}/>
     </Container>
   );
 }
