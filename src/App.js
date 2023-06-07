@@ -21,6 +21,13 @@ const Container = styled(Box)`
   background-color: grey;
 `;
 
+const initialSearchValue = {
+  country:'',
+  capital:'',
+  population:'',
+  continents:'',
+}
+
 function App() {
   let [lat, setLattitude] = useState(18.25);
   let [lng, setLongitude] = useState(-63.16666666);
@@ -28,11 +35,16 @@ function App() {
   const [latitude, setClickLat] = useState(null);
   const [longitude, setClickLong] = useState(null);
   const [place, setPlace] = useState("");
+  const [searchPlace, setsearchPlace] = useState(initialSearchValue);
+  const [flag,setFlag] =useState(false);
+
+  const [saved,setsaved] = useState("");
 
   const InformationGain = (e) => {
     e.target.doubleClickZoom._clickZoom = true;
     setClickLat(e.lngLat.lat);
     setClickLong(e.lngLat.lng);
+    setFlag(false);
   };
 
   useEffect(() => {
@@ -47,12 +59,39 @@ function App() {
       });
   }, [latitude, longitude]);
 
+  const SearchItem = async (e) => {
+    const searchValue = e.target.value;
+    try{
+
+      await axios.get(`https://restcountries.com/v3.1/name/${searchValue}`)
+      .then((response)=> {
+        setsearchPlace({country:searchValue,capital:response.data[0].capital,population:response.data[0].population,continents:response.data[0].continents})
+        console.log("SearchValue",searchPlace)
+      })
+      }catch(error){
+        console.log(error);
+      }
+        
+
+    
+
+    
+  }
+
+  const OnSubmit =()=>{
+    setsaved(searchPlace);
+    setFlag(true);
+
+  }
+
   return (
     <Container>
       <h1> World Map Application</h1>
+      <input type="text" placeholder="Search Country" onChange={(e)=>{SearchItem(e)}}></input>
+      <input type="button" value={"Submit"} onClick={()=> {OnSubmit()}}></input>
       <Map
         onClick={(e) => InformationGain(e)}
-        mapboxAccessToken="Your_AccessToken_Here"
+        mapboxAccessToken="pk.eyJ1IjoiYWJoaTVoZWtyYWoiLCJhIjoiY2xpazlwZGNtMDJ6cjNkcWYzZ3NseHVuZCJ9.kSCZANysCSgTxWQmEVVaFw"
         style={{
           width: "700px",
           height: "500px",
@@ -73,7 +112,7 @@ function App() {
          latitude={lat}
       /> */}
       </Map>
-      <Detail place={place} />
+      <Detail place={place} saved={saved} flag={flag}/>
     </Container>
   );
 }

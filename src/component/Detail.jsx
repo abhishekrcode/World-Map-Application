@@ -8,7 +8,7 @@ const initialDetail = {
     continents:'',
 }
 
-const Detail = ({place}) => {
+const Detail = ({place,saved,flag}) => {
     const [detail,setDetail] = useState(initialDetail)
 
     useEffect(()=>{
@@ -35,10 +35,10 @@ const Detail = ({place}) => {
     return (
        
         <>
-        <p1>Country:{detail.country}</p1>
-        <p1>Capital:{detail.capital}</p1>
-        <p1>Population:{detail.population}</p1>
-        <p1>Continent:{detail.continents}</p1>
+        <p1>Country:{flag?saved.country:detail.country}</p1>
+        <p1>Capital:{flag?saved.capital:detail.capital}</p1>
+        <p1>Population:{flag?saved.population:detail.population}</p1>
+        <p1>Continent:{flag?saved.continents:detail.continents}</p1>
         </>
     )
 }
