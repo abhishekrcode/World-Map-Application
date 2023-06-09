@@ -55,7 +55,7 @@ function App() {
   useEffect(() => {
     axios
       .get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoiYWJoaTVoZWtyYWoiLCJhIjoiY2xpazlwZGNtMDJ6cjNkcWYzZ3NseHVuZCJ9.kSCZANysCSgTxWQmEVVaFw`
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=ACESS_TOKEN`
       )
       .then((response) => {
         console.log(response.data.features[1].place_name);
@@ -100,7 +100,7 @@ function App() {
 
       <Map
         onClick={(e) => InformationGain(e)}
-        mapboxAccessToken="pk.eyJ1IjoiYWJoaTVoZWtyYWoiLCJhIjoiY2xpazlwZGNtMDJ6cjNkcWYzZ3NseHVuZCJ9.kSCZANysCSgTxWQmEVVaFw"
+        mapboxAccessToken="ACESS_TOKEN"
         style={{
           width: "700px",
           height: "500px",
